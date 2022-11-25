@@ -7,15 +7,20 @@ import (
 )
 
 type Config struct {
-	LogLevel       string
-	Host           string
-	Port           string
-	Environment    string
-	SignInKey      string
-	AuthConfigPath string
-	CSVFilePath    string
-	RedisHost      string
-	RedisPort      string
+	LogLevel         string
+	Host             string
+	Port             string
+	Environment      string
+	SignInKey        string
+	AuthConfigPath   string
+	CSVFilePath      string
+	RedisHost        string
+	RedisPort        string
+	PostgresHost     string
+	PostgresDatabase string
+	PostgresPort     string
+	PostgresPassword string
+	PostgresUser     string
 }
 
 func LoadConfig() *Config {
@@ -32,6 +37,13 @@ func LoadConfig() *Config {
 
 	c.RedisHost = cast.ToString(GetOrReturnDefault("REDIS_HOST", "localhost"))
 	c.RedisPort = cast.ToString(GetOrReturnDefault("REDIS_PORT", "6379"))
+
+	c.PostgresDatabase = cast.ToString(GetOrReturnDefault("POSTGRES_DATABASE", "maildb"))
+	c.PostgresHost = cast.ToString(GetOrReturnDefault("POSTGRES_HOST", "localhost"))
+	c.PostgresPort = cast.ToString(GetOrReturnDefault("POSTGRES_PORT", "5432"))
+	c.PostgresUser = cast.ToString(GetOrReturnDefault("POSTGRES_USER", "azizbek"))
+	c.PostgresPassword = cast.ToString(GetOrReturnDefault("POSTGRES_PASSWORD", "Azizbek"))
+
 	return c
 }
 
