@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/cast"
 
 	"github.com/uzbekman2005/mailganer-test-task/app/api/models"
+	"github.com/uzbekman2005/mailganer-test-task/app/pkg/etc"
 	"github.com/uzbekman2005/mailganer-test-task/app/pkg/logger"
 )
 
@@ -62,6 +63,15 @@ func (h *Handler) SendNewsToSupscribers(c *gin.Context) {
 		})
 		h.Log.Error("Error while binding from request", logger.Error(err))
 		return
+	}
+
+	for _, e := range body.To {
+		if _, ok := etc.ValidMailAddress(e.Email); !ok {
+			c.JSON(http.StatusBadRequest, models.StatusInfo{
+				Message: "Invalid mailing address" + e.Email,
+			})
+			return
+		}
 	}
 
 	err = h.EmailSender.SendEmailWithSupscibers(&models.SendEmailConfig{
