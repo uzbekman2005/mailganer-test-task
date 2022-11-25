@@ -1,0 +1,75 @@
+definitions:
+  models.SendEmailWithSupscribersReq:
+    properties:
+      news:
+        type: string
+      subscribers:
+        items:
+          $ref: '#/definitions/models.Subscriber'
+        type: array
+    type: object
+  models.StatusInfo:
+    properties:
+      message:
+        type: string
+    type: object
+  models.Subscriber:
+    properties:
+      birthday:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+    type: object
+host: localhost:9090
+info:
+  contact:
+    email: azizbekhojimurodov@gmail.com
+    name: Azizbek
+    url: https://t.me/azizbek_dev_2005
+  description: This test task server
+  title: Mailganer-test-task
+  version: "1.0"
+paths:
+  /email/tosubscribers:
+    post:
+      consumes:
+      - application/json
+      description: Through this api, news and informatin of all subscirbers will be
+        sent
+      parameters:
+      - description: SendEmailWithSupscribersReq
+        in: body
+        name: SendEmailWithSupscribersReq
+        required: true
+        schema:
+          $ref: '#/definitions/models.SendEmailWithSupscribersReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.StatusInfo'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.StatusInfo'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StatusInfo'
+      security:
+      - BearerAuth: []
+      summary: SendEmailWithSupscribers
+      tags:
+      - Email
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

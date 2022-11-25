@@ -1,0 +1,3 @@
+p, unauthorized, /swagger/*, GET
+p, authorized, /swagger/*, GET
+p, authorized, /email/withsubscribers, POST
