@@ -2,6 +2,7 @@ package email
 
 import (
 	"bytes"
+	"fmt"
 	"net/smtp"
 	"text/template"
 
@@ -15,6 +16,12 @@ type EmailSender struct {
 	Logger logger.Logger
 }
 
+type Message struct {
+	FirstName string
+	LastName  string
+	News      string
+}
+
 func NewEmailSender(cfg *config.Config, log logger.Logger) *EmailSender {
 	return &EmailSender{
 		Cfg:    cfg,
@@ -23,20 +30,24 @@ func NewEmailSender(cfg *config.Config, log logger.Logger) *EmailSender {
 }
 
 func (e *EmailSender) SendEmailWithSupscibers(ecfg *models.SendEmailConfig, req *models.SendNewsToSupscribersReq) error {
-	var body bytes.Buffer
-
-	t, err := template.ParseFiles("./kafka/consumer/Email/email_temp/email.html")
-	if err != nil {
-		e.Logger.Error("Error while parsing HTML template", logger.Error(err))
-		return err
-	}
 
 	for _, el := range req.To {
-		t.Execute(&body, struct{ FirstName string }{FirstName: el.FirstName})
-		t.Execute(&body, struct{ LastName string }{LastName: el.LastName})
+		body := new(bytes.Buffer)
+		t, err := template.ParseFiles("/home/azizbek/go/src/github.com/uzbekman2005/mailganer-test-task/app/email/html_templates/news.html")
+		if err != nil {
+			e.Logger.Error("Error while parsing HTML template", logger.Error(err))
+			return err
+		}
+		mInfo := &Message{
+			FirstName: el.FirstName,
+			LastName:  el.LastName,
+			News:      req.News,
+		}
 
+		t.Execute(body, mInfo)
+		fmt.Println(body.String())
 		mime := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
-		msg := []byte("SEND HTML TEMPLATE" + mime + body.String())
+		msg := []byte("Subject: News" + mime + body.String())
 
 		auth := smtp.PlainAuth("", ecfg.Email, ecfg.Passwrod, "smtp.gmail.com")
 
