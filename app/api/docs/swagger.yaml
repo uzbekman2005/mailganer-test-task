@@ -1,4 +1,19 @@
 definitions:
+  models.SaveUserInRedis:
+    properties:
+      access_token:
+        type: string
+      email:
+        type: string
+      email_password:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
   models.SendEmailWithSupscribersReq:
     properties:
       news:
@@ -22,6 +37,17 @@ definitions:
       first_name:
         type: string
       last_name:
+        type: string
+    type: object
+  models.User:
+    properties:
+      email:
+        type: string
+      email_password:
+        type: string
+      name:
+        type: string
+      password:
         type: string
     type: object
 host: localhost:9090
@@ -67,6 +93,96 @@ paths:
       summary: SendEmailWithSupscribers
       tags:
       - Email
+  /user/login:
+    get:
+      consumes:
+      - application/json
+      description: Through this api, User can login
+      parameters:
+      - description: email
+        in: query
+        name: email
+        required: true
+        type: string
+      - description: password
+        in: query
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SaveUserInRedis'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.StatusInfo'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StatusInfo'
+      summary: Login users
+      tags:
+      - User
+  /user/profile:
+    get:
+      consumes:
+      - application/json
+      description: Through this api, User can login
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SaveUserInRedis'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.StatusInfo'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StatusInfo'
+      security:
+      - BearerAuth: []
+      summary: Login users
+      tags:
+      - User
+  /user/register:
+    post:
+      consumes:
+      - application/json
+      description: Through this api, news and informatin of all subscirbers will be
+        sent
+      parameters:
+      - description: User
+        in: body
+        name: User
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SaveUserInRedis'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.StatusInfo'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StatusInfo'
+      summary: SendEmailWithSupscribers
+      tags:
+      - User
 securityDefinitions:
   BearerAuth:
     in: header

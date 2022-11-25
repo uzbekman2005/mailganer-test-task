@@ -1,3 +1,6 @@
 p, unauthorized, /swagger/*, GET
-p, authorized, /swagger/*, GET
-p, authorized, /email/withsubscribers, POST
+p, authorized, /email/tosubscribers, POST
+p, unauthorized, /user/register, POST
+g, authorized, unauthorized
+p, unauthorized, /user/login, GET
+p, authorized, /user/profile, GET

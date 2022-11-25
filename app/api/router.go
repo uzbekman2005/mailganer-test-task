@@ -52,9 +52,13 @@ func NewRouter(opt Option) *gin.Engine {
 		Log:         opt.Logger,
 		Cfg:         opt.Conf,
 		EmailSender: opt.EmailSender,
+		Redis:       opt.Redis,
 	}
 
 	router.POST("/email/tosubscribers", handler.SendNewsToSupscribers)
+	router.POST("/user/register", handler.Register)
+	router.GET("/user/login", handler.Login)
+	router.GET("/user/profile", handler.Profile)
 
 	url := ginSwagger.URL("swagger/doc.json")
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))

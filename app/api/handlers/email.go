@@ -9,19 +9,19 @@ import (
 	"github.com/uzbekman2005/mailganer-test-task/app/pkg/logger"
 )
 
-// @Summary 		SendEmailWithSupscribers
+// @Summary 		SendNewsToSupscribers
 // @Description 	Through this api, news and informatin of all subscirbers will be sent
 // @Tags 			Email
 // @Security        BearerAuth
 // @Accept 			json
 // @Produce         json
-// @Param           SendEmailWithSupscribersReq      body  	  models.SendEmailWithSupscribersReq true "SendEmailWithSupscribersReq"
+// @Param           SendNewsToSupscribersReq      body  	  models.SendNewsToSupscribersReq true "SendNewsToSupscribersReq"
 // @Success         200					  {object} 	models.StatusInfo
 // @Failure         500                   {object}  models.StatusInfo
 // @Failure         409                   {object}  models.StatusInfo
 // @Router          /email/tosubscribers [post]
 func (h *Handler) SendNewsToSupscribers(c *gin.Context) {
-	body := &models.SendEmailWithSupscribersReq{}
+	body := &models.SendNewsToSupscribersReq{}
 
 	err := c.ShouldBindJSON(&body)
 	if err != nil {

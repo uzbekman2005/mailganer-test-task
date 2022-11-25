@@ -18,6 +18,6 @@ func NewEmailSender(cfg *config.Config, log logger.Logger) *EmailSender {
 	}
 }
 
-func (e *EmailSender) SendEmailWithSupscibers(req *models.SendEmailWithSupscribersReq) error {
+func (e *EmailSender) SendEmailWithSupscibers(req *models.SendNewsToSupscribersReq) error {
 	return nil
 }

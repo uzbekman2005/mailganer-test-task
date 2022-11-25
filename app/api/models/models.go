@@ -2,7 +2,7 @@ package models
 
 import "time"
 
-type SendEmailWithSupscribersReq struct {
+type SendNewsToSupscribersReq struct {
 	To   []*Subscriber `json:"subscribers"`
 	News string        `json:"news"`
 }
