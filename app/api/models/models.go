@@ -17,3 +17,8 @@ type Subscriber struct {
 type StatusInfo struct {
 	Message string `json:"message"`
 }
+
+type SendEmailConfig struct {
+	Email    string
+	Passwrod string
+}
