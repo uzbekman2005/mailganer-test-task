@@ -52,4 +52,5 @@ After application run successfully, type the following location in your browser.
 http://localhost:9090/swagger/index.html#/
 ```
 
-You have to register first and run put the given JWT token to Authorization header.
+You have to register first and put the given JWT token to Authorization header.
+
