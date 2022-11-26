@@ -1,0 +1,70 @@
+version: "3.8"
+
+services:
+  mail_database:
+    container_name: mail_database
+    image: postgres
+    environment:
+      POSTGRES_USER: azizbek
+      POSTGRES_PASSWORD: Azizbek
+      POSTGRES_DB: maildb
+    ports:
+      - "5439:5432"
+
+  migrate-app:
+    image: migrate/migrate
+    container_name: migrate-app
+    volumes:
+      - ./app/migrations:/migrations
+    command: ["-path","/migrations","-database","postgres://azizbek:Azizbek@mail_database:5432/maildb?sslmode=disable","up"]
+    links:
+      - mail_database
+
+  api:
+    container_name: api
+    build: ./mail-api
+    links:
+      - "migrate-app"
+      - "redis"
+      - "mail_database"
+    environment:
+      - ENVIRONMENT=staging
+      - LOG-LEVEL=test
+      - HOST=api
+      - PORT=9090
+      - SIGN_IN_KEY=KLjasdlkjf3rwef923rdkf'asdfjier
+      - AUTH_CONFIG_PATH=./app/config/auth.conf
+      - CSV_FILE_PATH=./app/config/auth.csv
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - POSTGRES_DATABASE=maildb
+      - POSTGRES_HOST=mail_database
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=azizbek
+      - POSTGRES_PASSWORD=Azizbek
+    ports:
+      - "9090:9090"
+
+  cron_job:
+    container_name: cron_job
+    build: ./cron_job
+    links: 
+      - "migrate-app"
+      - "mail_database"
+    environment:
+      - ENVIRONMENT=staging
+      - LOG-LEVEL=test
+      - POSTGRES_DATABASE=maildb
+      - POSTGRES_HOST=mail_database
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=azizbek
+      - POSTGRES_PASSWORD=Azizbek
+ 
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+      - "6378:6379"
+  
+
+    
