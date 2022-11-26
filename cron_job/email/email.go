@@ -31,7 +31,7 @@ func NewEmailSender(cfg *config.Config, log logger.Logger) *EmailSender {
 func (e *EmailSender) SendEmailToSupscibers(ecfg *models.SendEmailConfig, req *models.SendNewsToSupscribersReq) error {
 	for _, el := range req.To {
 		body := new(bytes.Buffer)
-		t, err := template.ParseFiles("app/email/html_templates/news.html")
+		t, err := template.ParseFiles("./email/html_templates/news.html")
 		if err != nil {
 			e.Logger.Error("Error while parsing HTML template", logger.Error(err))
 			return err

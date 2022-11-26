@@ -15,7 +15,7 @@ services:
     image: migrate/migrate
     container_name: migrate-app
     volumes:
-      - ./app/migrations:/migrations
+      - ./mail-api/migrations:/migrations
     command: ["-path","/migrations","-database","postgres://azizbek:Azizbek@mail_database:5432/maildb?sslmode=disable","up"]
     links:
       - mail_database
@@ -33,8 +33,8 @@ services:
       - HOST=api
       - PORT=9090
       - SIGN_IN_KEY=KLjasdlkjf3rwef923rdkf'asdfjier
-      - AUTH_CONFIG_PATH=./app/config/auth.conf
-      - CSV_FILE_PATH=./app/config/auth.csv
+      - AUTH_CONFIG_PATH=./config/auth.conf
+      - CSV_FILE_PATH=./config/auth.csv
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - POSTGRES_DATABASE=maildb

@@ -3,5 +3,6 @@ RUN mkdir api
 COPY . /api
 WORKDIR /api
 RUN go mod tidy
+RUN go mod vendor
 RUN go build -o main cmd/main.go 
 CMD ./main
