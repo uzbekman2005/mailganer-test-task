@@ -54,3 +54,5 @@ http://localhost:9090/swagger/index.html#/
 
 You have to register first and put the given JWT token to Authorization header.
 
+# Privacy
+As you run this code in your local machine don't worry about privacy.
