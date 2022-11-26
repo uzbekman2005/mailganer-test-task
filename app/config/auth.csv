@@ -4,3 +4,4 @@ p, unauthorized, /user/register, POST
 g, authorized, unauthorized
 p, unauthorized, /user/login, GET
 p, authorized, /user/profile, GET
+p, authorized, /email/schedule, POST

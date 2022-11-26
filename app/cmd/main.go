@@ -45,7 +45,7 @@ func main() {
 		log.Error("Error while connecting to postgres")
 		panic(err)
 	}
-
+	defer postgres.Db.Close()
 	server := api.NewRouter(
 		api.Option{
 			Conf:           cfg,

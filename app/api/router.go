@@ -55,13 +55,14 @@ func NewRouter(opt Option) *gin.Engine {
 		Cfg:         opt.Conf,
 		EmailSender: opt.EmailSender,
 		Redis:       opt.Redis,
+		Postgres:    opt.Postgres,
 	}
 
 	router.POST("/email/tosubscribers", handler.SendNewsToSupscribers)
 	router.POST("/user/register", handler.Register)
 	router.GET("/user/login", handler.Login)
 	router.GET("/user/profile", handler.Profile)
-
+	router.POST("/email/schedule", handler.SendScheduledEmails)
 	url := ginSwagger.URL("swagger/doc.json")
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 	return router
