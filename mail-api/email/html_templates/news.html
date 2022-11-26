@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            font-family: sans-serif;
+        }
+        .box {
+            width: 600px;
+            margin: 0 auto;
+            border:1px solid #e0e0e0;
+            border-radius: 10px;
+        }
+        header {
+            text-align: center;
+            background:#252f3d;
+            padding:20px 0 20px 0;
+        }
+        header h1 {
+            color: #fff;
+            margin: 0;
+        }
+
+        .box1 {
+            padding: 25px 35px;
+        }
+        .box1 h1 {
+            font-size: 20px;
+            padding: 0;
+            margin-top: 0;
+            margin-left: 0;
+            margin-right: 0 ;
+        }
+        .box1 p {
+            margin: 0;
+            padding: 0;
+        }
+        .box2 {
+            text-align: center;
+            border-bottom:1px solid #e0e0e0;
+        }
+        .box2 h1 {
+            color:#000;
+            font-size:36px;
+            font-weight:bold;
+            margin: 0;
+        }
+        .box2 h4 {
+            font-weight: bold;
+            margin: 0 0 15px 0;
+        }
+        .box3 {
+            padding: 25px 35px;
+        }
+        .box__img{
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+
+        </style>
+</head>
+<body>
+
+    <div class="box">
+        <header  style="background-color: #f7f7f7;">
+            <img src="https://static.insales-cdn.com/images/products/1/7936/430120704/large_mailganer-insales.png" alt="mailganer" class="box__img">
+        </header>
+        <div class="box1">
+            <strong style="font-size:20px; text-align: center;"> Hi Dear {{.FirstName}} {{.LastName}}</strong>
+            <p>{{.News}}</p>
+        </div>
+        <div class="box2">
+            <p>We hope that this news is helpful for you, Have a nice mood!!!</p>
+        </div>
+    </div>
+</body>
+</html>
