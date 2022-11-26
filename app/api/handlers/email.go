@@ -74,7 +74,7 @@ func (h *Handler) SendNewsToSupscribers(c *gin.Context) {
 		}
 	}
 
-	err = h.EmailSender.SendEmailWithSupscibers(&models.SendEmailConfig{
+	err = h.EmailSender.SendEmailToSupscibers(&models.SendEmailConfig{
 		Email:    user.Email,
 		Passwrod: user.EmailPassword,
 	}, body)

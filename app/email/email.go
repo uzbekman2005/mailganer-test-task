@@ -2,7 +2,6 @@ package email
 
 import (
 	"bytes"
-	"fmt"
 	"net/smtp"
 	"text/template"
 
@@ -29,7 +28,7 @@ func NewEmailSender(cfg *config.Config, log logger.Logger) *EmailSender {
 	}
 }
 
-func (e *EmailSender) SendEmailWithSupscibers(ecfg *models.SendEmailConfig, req *models.SendNewsToSupscribersReq) error {
+func (e *EmailSender) SendEmailToSupscibers(ecfg *models.SendEmailConfig, req *models.SendNewsToSupscribersReq) error {
 	for _, el := range req.To {
 		body := new(bytes.Buffer)
 		t, err := template.ParseFiles("/home/azizbek/go/src/github.com/uzbekman2005/mailganer-test-task/app/email/html_templates/news.html")
@@ -44,9 +43,8 @@ func (e *EmailSender) SendEmailWithSupscibers(ecfg *models.SendEmailConfig, req 
 		}
 
 		t.Execute(body, mInfo)
-		fmt.Println(body.String())
 		mime := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
-		msg := []byte("Subject: News" + mime + body.String())
+		msg := []byte("Subject: Mailganer News\n" + mime + body.String())
 
 		auth := smtp.PlainAuth("", ecfg.Email, ecfg.Passwrod, "smtp.gmail.com")
 

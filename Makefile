@@ -1,5 +1,8 @@
-run:
-	go run app/cmd/main.go
+run_main:
+	go run app/cmd/mainapi/main.go
+
+run_cron:
+	go run app/cmd/cron_job/main.go
 
 swag:
 	swag init -g app/api/router.go -o app/api/docs

@@ -5,9 +5,9 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
-	"github.com/lib/pq"
 	"github.com/uzbekman2005/mailganer-test-task/app/api/models"
 	"github.com/uzbekman2005/mailganer-test-task/app/config"
+	_ "github.com/lib/pq"
 )
 
 type Postgres struct {
@@ -88,7 +88,7 @@ func (p *Postgres) GetScheduledMessages() ([]*models.GetScheduledMessagesRes, er
 		FROM 
 			messages as m INNER JOIN news as n ON n.id=m.news_id
 		WHERE 
-			EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - scheduled_at)) BETWEEN 40 and 70
+			EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - scheduled_at)) >= (m.minutes_after * 60)
 		`,
 	)
 	if err != nil {
@@ -98,6 +98,7 @@ func (p *Postgres) GetScheduledMessages() ([]*models.GetScheduledMessagesRes, er
 	ids := []string{}
 	for rows.Next() {
 		msg := &models.GetScheduledMessagesRes{}
+		msg.To = &models.Subscriber{}
 		id := ""
 		err = rows.Scan(
 			&msg.News,
@@ -124,6 +125,11 @@ func (p *Postgres) GetScheduledMessages() ([]*models.GetScheduledMessagesRes, er
 }
 
 func (p *Postgres) DeleteMessagesByIds(ids []string) error {
-	_, err := p.Db.Exec(`DELETE FROM messages where id in $1`, pq.Array(ids))
-	return err
+	for _, id := range ids {
+		_, err := p.Db.Exec(`DELETE FROM messages where id=$1`, id)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
