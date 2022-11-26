@@ -14,8 +14,19 @@ definitions:
       password:
         type: string
     type: object
-  models.SendEmailWithSupscribersReq:
+  models.SendNewsToSupscribersReq:
     properties:
+      news:
+        type: string
+      subscribers:
+        items:
+          $ref: '#/definitions/models.Subscriber'
+        type: array
+    type: object
+  models.SendScheduledEmailsApiReq:
+    properties:
+      minutsAfter:
+        type: integer
       news:
         type: string
       subscribers:
@@ -30,8 +41,6 @@ definitions:
     type: object
   models.Subscriber:
     properties:
-      birthday:
-        type: string
       email:
         type: string
       first_name:
@@ -60,19 +69,19 @@ info:
   title: Mailganer-test-task
   version: "1.0"
 paths:
-  /email/tosubscribers:
+  /email/schedule:
     post:
       consumes:
       - application/json
       description: Through this api, news and informatin of all subscirbers will be
         sent
       parameters:
-      - description: SendEmailWithSupscribersReq
+      - description: SendScheduledEmailsApiReq
         in: body
-        name: SendEmailWithSupscribersReq
+        name: SendScheduledEmailsApiReq
         required: true
         schema:
-          $ref: '#/definitions/models.SendEmailWithSupscribersReq'
+          $ref: '#/definitions/models.SendScheduledEmailsApiReq'
       produces:
       - application/json
       responses:
@@ -90,7 +99,40 @@ paths:
             $ref: '#/definitions/models.StatusInfo'
       security:
       - BearerAuth: []
-      summary: SendEmailWithSupscribers
+      summary: SendScheduledEmails
+      tags:
+      - Email
+  /email/tosubscribers:
+    post:
+      consumes:
+      - application/json
+      description: Through this api, news and informatin of all subscirbers will be
+        sent
+      parameters:
+      - description: SendNewsToSupscribersReq
+        in: body
+        name: SendNewsToSupscribersReq
+        required: true
+        schema:
+          $ref: '#/definitions/models.SendNewsToSupscribersReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.StatusInfo'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.StatusInfo'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StatusInfo'
+      security:
+      - BearerAuth: []
+      summary: SendNewsToSupscribers
       tags:
       - Email
   /user/login:

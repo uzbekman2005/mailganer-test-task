@@ -9,6 +9,7 @@ import (
 	"github.com/uzbekman2005/mailganer-test-task/app/config"
 	"github.com/uzbekman2005/mailganer-test-task/app/email"
 	"github.com/uzbekman2005/mailganer-test-task/app/pkg/logger"
+	"github.com/uzbekman2005/mailganer-test-task/app/storage/postgres"
 	r "github.com/uzbekman2005/mailganer-test-task/app/storage/redis"
 )
 
@@ -39,6 +40,12 @@ func main() {
 		},
 	}
 
+	postgres, err := postgres.NewPostgres(*cfg)
+	if err != nil {
+		log.Error("Error while connecting to postgres")
+		panic(err)
+	}
+
 	server := api.NewRouter(
 		api.Option{
 			Conf:           cfg,
@@ -46,6 +53,7 @@ func main() {
 			EmailSender:    emailSender,
 			CasbinEnforcer: casbinEnforcer,
 			Redis:          r.NewRedisRepo(pool),
+			Postgres:       postgres,
 		},
 	)
 

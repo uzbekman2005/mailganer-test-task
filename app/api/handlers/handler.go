@@ -9,6 +9,7 @@ import (
 	"github.com/uzbekman2005/mailganer-test-task/app/config"
 	"github.com/uzbekman2005/mailganer-test-task/app/email"
 	"github.com/uzbekman2005/mailganer-test-task/app/pkg/logger"
+	"github.com/uzbekman2005/mailganer-test-task/app/storage/postgres"
 	"github.com/uzbekman2005/mailganer-test-task/app/storage/repo"
 )
 
@@ -18,6 +19,7 @@ type Handler struct {
 	EmailSender *email.EmailSender
 	Redis       repo.InMemoryStorageI
 	JWTHandler  t.JWTHandler
+	Postgres    *postgres.Postgres
 }
 
 func GetClaims(h Handler, c *gin.Context) (*t.CustomClaims, error) {

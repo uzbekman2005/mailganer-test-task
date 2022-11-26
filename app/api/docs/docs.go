@@ -20,6 +20,57 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/email/schedule": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Through this api, news and informatin of all subscirbers will be sent",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Email"
+                ],
+                "summary": "SendScheduledEmails",
+                "parameters": [
+                    {
+                        "description": "SendScheduledEmailsApiReq",
+                        "name": "SendScheduledEmailsApiReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SendScheduledEmailsApiReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.StatusInfo"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/models.StatusInfo"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StatusInfo"
+                        }
+                    }
+                }
+            }
+        },
         "/email/tosubscribers": {
             "post": {
                 "security": [
@@ -37,15 +88,15 @@ const docTemplate = `{
                 "tags": [
                     "Email"
                 ],
-                "summary": "SendEmailWithSupscribers",
+                "summary": "SendNewsToSupscribers",
                 "parameters": [
                     {
-                        "description": "SendEmailWithSupscribersReq",
-                        "name": "SendEmailWithSupscribersReq",
+                        "description": "SendNewsToSupscribersReq",
+                        "name": "SendNewsToSupscribersReq",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.SendEmailWithSupscribersReq"
+                            "$ref": "#/definitions/models.SendNewsToSupscribersReq"
                         }
                     }
                 ],
@@ -233,9 +284,26 @@ const docTemplate = `{
                 }
             }
         },
-        "models.SendEmailWithSupscribersReq": {
+        "models.SendNewsToSupscribersReq": {
             "type": "object",
             "properties": {
+                "news": {
+                    "type": "string"
+                },
+                "subscribers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Subscriber"
+                    }
+                }
+            }
+        },
+        "models.SendScheduledEmailsApiReq": {
+            "type": "object",
+            "properties": {
+                "minutsAfter": {
+                    "type": "integer"
+                },
                 "news": {
                     "type": "string"
                 },
@@ -258,9 +326,6 @@ const docTemplate = `{
         "models.Subscriber": {
             "type": "object",
             "properties": {
-                "birthday": {
-                    "type": "string"
-                },
                 "email": {
                     "type": "string"
                 },

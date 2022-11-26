@@ -7,6 +7,5 @@ swag:
 migrate_up:
 	migrate -path app/migrations/ -database postgres://azizbek:Azizbek@localhost:5432/maildb up
 
-migrate_up:
+migrate_down:
 	migrate -path app/migrations/ -database postgres://azizbek:Azizbek@localhost:5432/maildb down
-	

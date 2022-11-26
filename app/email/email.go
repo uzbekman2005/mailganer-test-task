@@ -30,7 +30,6 @@ func NewEmailSender(cfg *config.Config, log logger.Logger) *EmailSender {
 }
 
 func (e *EmailSender) SendEmailWithSupscibers(ecfg *models.SendEmailConfig, req *models.SendNewsToSupscribersReq) error {
-
 	for _, el := range req.To {
 		body := new(bytes.Buffer)
 		t, err := template.ParseFiles("/home/azizbek/go/src/github.com/uzbekman2005/mailganer-test-task/app/email/html_templates/news.html")

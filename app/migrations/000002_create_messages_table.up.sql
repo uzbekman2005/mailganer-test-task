@@ -4,8 +4,6 @@ CREATE TABLE IF NOT EXISTS messages (
     first_name TEXT, 
     last_name TEXT, 
     email TEXT,
-    email_password TEXT,
-    password TEXT,
     scheduled_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    scheduled_to TIMESTAMP
+    minutes_after INT
 );
