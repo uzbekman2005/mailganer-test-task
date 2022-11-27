@@ -34,12 +34,13 @@ Implement deferred sends using Celery (relevant only for implementation in Pytho
   I used postgres to store messages to be sent later.
 
 # Running code  
-    As I used docker everything in the code will run in docker,  so just few commands are enough to run the docker.
+As I used docker everything in the code will run in docker,  so just few commands are enough to run the docker.
     
 ```
 docker compose up
 ```
- ! If there's problem run the second command 
+
+!If there's problem run the second command 
   
 ```
 docker start api cron_job migrate-app
