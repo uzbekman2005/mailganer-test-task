@@ -40,7 +40,7 @@ As I used docker everything in the code will run in docker,  so just few command
 docker compose up
 ```
 
-!If there's problem run the second command 
+!If there's problem run the second command in another terminal
   
 ```
 docker start api cron_job migrate-app
