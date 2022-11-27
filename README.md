@@ -42,7 +42,7 @@ docker compose up
  ! If there's problem run the second command 
   
 ```
-docker start api cron_job
+docker start api cron_job migrate-app
 ```
 When this problem may arise. When your docker machine tries to run api and cron_job before postres or redis is run.
 Even if I use "links" in docker-compose.yml file, sometimes this problem occurs.
